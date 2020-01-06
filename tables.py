@@ -3,6 +3,8 @@ import getpass
 import os.path
 from os import path
 import argparse
+from sys import platform
+import webbrowser
 
 def createNewConfigFile():
     configFileUserInput = {
@@ -128,12 +130,14 @@ else:
         output.append(printDottedLine())
 
 # determine desired output
-if args.output == None or args.output == 'both':
+if args.output == None or args.output == 'display':
+    clearTerminalScreen()
+    for line in output: print(line)
+elif args.output == 'both':
     clearTerminalScreen()
     for line in output: print(line)
     writeOutputToFile(output)
-elif args.output == 'display':
-    clearTerminalScreen()
-    for line in output: print(line)
+    webbrowser.open("tables.output.txt")
 else:
     writeOutputToFile(output)
+    webbrowser.open("tables.output.txt")

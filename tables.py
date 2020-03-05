@@ -65,7 +65,7 @@ parser.add_argument('-o', '--output', choices=['display', 'save', 'both'], help=
 args = parser.parse_args()
 
 # create new config file if one does not exist in the local directory
-if not path.exists('.tables.config'):
+if not path.exists('.tables-mysql-info.json'):
     createNewConfigFile()
 
 # connect to database

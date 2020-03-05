@@ -5,6 +5,7 @@ from os import path
 import argparse
 from sys import platform
 import webbrowser
+import json
 
 def createNewConfigFile():
     configFileUserInput = {
@@ -14,25 +15,14 @@ def createNewConfigFile():
         "passwd"   : getpass.getpass(),
     }
 
-    # write data to the config file
-    newConfigFile = open(".tables.config", "w")
-    newConfigFile.write(configFileUserInput['user'] + "\n")
-    newConfigFile.write(configFileUserInput['host'] + "\n")
-    newConfigFile.write(configFileUserInput['database'] + "\n")
-    newConfigFile.write(configFileUserInput['passwd'] + "\n")
-    newConfigFile.close()
+    jsonString = json.dumps(configFileUserInput)
+    with open(".tables-mysql-info.json", "w") as newConfigFile:
+        newConfigFile.write(jsonString)
 
 # return the data from the local .tables.config file
 def getConfigData():
-    with open('.tables.config') as f:
-        lines = list(f)
-
-        configData = {
-            "user" : lines[0],
-            "host" : lines[1],
-            "database" : lines[2],
-            "passwd" : lines[3].strip()
-        }
+    with open('.tables-mysql-info.json') as configFile:
+        configData = json.loads(configFile.read())
         return configData
 
 def getTableRow(row):

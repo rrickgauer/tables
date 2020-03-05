@@ -1,2 +1,3 @@
 .tables.config
+.tables-mysql-info.json
 tables.output.txt

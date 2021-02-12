@@ -82,8 +82,14 @@ tableDictsList = []
 for table in tableList:
     tableDictsList.append(table.getDictVersion())
 
+
+outData = {
+    "database": configData["database"],
+    "tables": tableDictsList,
+}
+
 # generate a javascript file to hold the data
-jsonString = json.dumps(tableDictsList, indent=4)
+jsonString = json.dumps(outData, indent=4)
 jsFileContent = "const G_TABLE_DATA = " + jsonString + ";"
 
 

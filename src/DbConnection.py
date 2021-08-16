@@ -49,4 +49,6 @@ class DbConnection:
         self.db = mysql.connector.connect(**configDataDict)
         self.cursor = self.db.cursor()
 
-        
+    
+    def close(self):
+        self.db.close()

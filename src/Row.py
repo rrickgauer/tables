@@ -12,6 +12,5 @@ class Row:
         self.default = rowStruct[4]
         self.extra   = rowStruct[5]
 
-
     def getDict(self):
         return self.__dict__

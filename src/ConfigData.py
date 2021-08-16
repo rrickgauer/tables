@@ -7,7 +7,6 @@ class ConfigData:
     # static properties
     CONFIG_FILE = '.tables-mysql-info.json'
 
-
     def __init__(self):
         """MySQL configuration file class.
         """
@@ -80,7 +79,7 @@ class ConfigData:
         self._user     = input('user: ')
         self._host     = input('host: ')
         self._database = input('database: ')
-        self._passwd   = getpass('passwd: ')
+        self._passwd   = getpass.getpass('passwd: ')
         
         configDict = self.toDict()
         Util.writeDictToFile(configDict, ConfigData.CONFIG_FILE)

@@ -5,38 +5,63 @@ from TableTypes import TableTypes
 
 class Controller:
 
-    def __init__(self, a_bShowViews: bool=True):
+    def __init__(self, showViews: bool=True):
+        """Controller class constructor
+
+        Args:
+            showViews (bool, optional): Include the views in the output. Defaults to True.
+        """
         self.configData = ConfigData()
         self.dbCon = DbConnection(self.configData)
         self.tables = []
-        self.showViews = a_bShowViews
+        self.showViews = showViews
         
     
     def loadTables(self):
+        """Load the tables data"""
         self._loadTableNames()
-        self._loadTableMetadata()
+        self._loadAllTableMetadata()
         
     def _loadTableNames(self):
+        """Load the list of table names that are in the database"""
+
+        # generate the sql statement
+        sql = self._getShowTablesSqlStatement()
+
+        # connect to the database and retrieve the tables recordset
         self.dbCon.connect()
+        self.dbCon.cursor.execute(sql)
+        dbResultRecords = self.dbCon.cursor.fetchall()
+
+        # process each table record returned from the database
+        # add the table objects to the list of table objects
+        for tableRecord in dbResultRecords:
+            tableObj = Table(tableRecord[0],  TableTypes.TABLE)
+
+            # determine the table type
+            if tableRecord[1] == TableTypes.VIEW.value:
+                tableObj.tableType = TableTypes.VIEW
+            
+            self.tables.append(tableObj)
+        
+        # close the connection
+        self.dbCon.close()
+
+    def _getShowTablesSqlStatement(self) -> str:
+        """Get the sql statement for selecting the list of table names.
+
+        Returns:
+            str: SQL statement
+        """
         sql = 'SHOW FULL TABLES'
 
         if self.showViews:
             sql += " WHERE Table_Type = 'BASE TABLE'"
 
-        self.dbCon.cursor.execute(sql)
-        myResult = self.dbCon.cursor.fetchall()
+        return sql
 
-        for tableInfo in myResult:
-            tableObj = Table(tableInfo[0],  TableTypes.TABLE)
-
-            if tableInfo[1] == TableTypes.VIEW.value:
-                tableObj.tableType = TableTypes.VIEW
-            
-            self.tables.append(tableObj)
-        
-        self.dbCon.close()
-
-    def _loadTableMetadata(self):
+    def _loadAllTableMetadata(self):
+        """Fetch each table's metadata."""
         self.dbCon.connect()
 
         for tableObj in self.tables:

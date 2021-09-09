@@ -1,12 +1,16 @@
 from ConfigData import ConfigData
-# import mysql.connector
 import mysql.connector
-import mysql.connector.cursor
+#import mysql.connector.cursor
 
 
 class DbConnection:
 
     def __init__(self, configData: ConfigData):
+        """Database Connection.
+
+        Args:
+            configData (ConfigData): Config data with the database credentials.
+        """
         self._configData = configData
         self._db = None
         self._cursor = None

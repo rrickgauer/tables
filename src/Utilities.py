@@ -1,7 +1,5 @@
 import json
 
-
-
 def writeDictToFile(a_dict: dict, a_strOutputFileName: str):
     """Write a python dictionary to a json file.
 

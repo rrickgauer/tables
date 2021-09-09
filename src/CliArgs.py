@@ -1,12 +1,13 @@
 
 from __future__ import annotations
+# from typing import List
 import argparse
 
 
 class CliArgs:
 
     def __init__(self):
-        """Command line parser class constructor.
+        """Command line parser.
         """
         # setup the arg parser
         self.parser = argparse.ArgumentParser(description="View a MySQL Database Schema on the command line.")

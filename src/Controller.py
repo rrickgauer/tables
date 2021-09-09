@@ -1,3 +1,4 @@
+from __future__ import annotations
 from ConfigData import ConfigData
 from DbConnection import DbConnection
 from Table import Table
@@ -11,10 +12,10 @@ class Controller:
         Args:
             showViews (bool, optional): Include the views in the output. Defaults to True.
         """
-        self.configData = ConfigData()
-        self.dbCon = DbConnection(self.configData)
-        self.tables = []
-        self.showViews = showViews
+        self.configData: ConfigData = ConfigData()
+        self.dbCon: DbConnection = DbConnection(self.configData)
+        self.tables: list[Table] = []
+        self.showViews: bool = showViews
         
     
     def loadTables(self):

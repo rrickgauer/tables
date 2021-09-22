@@ -6,16 +6,18 @@ from TableTypes import TableTypes
 
 class Controller:
 
-    def __init__(self, showViews: bool=True):
+    def __init__(self, showViews: bool=True, formatAsMarkdown: bool=False):
         """Controller class constructor
 
         Args:
             showViews (bool, optional): Include the views in the output. Defaults to True.
+            formatAsMarkdown (bool, optional): Format output as markdown? Defaults to False.
         """
         self.configData: ConfigData = ConfigData()
         self.dbCon: DbConnection = DbConnection(self.configData)
         self.tables: list[Table] = []
-        self.showViews: bool = showViews
+        self.showViews = showViews
+        self.formatAsMarkdown = formatAsMarkdown
         
     
     def loadTables(self):
@@ -37,7 +39,7 @@ class Controller:
         # process each table record returned from the database
         # add the table objects to the list of table objects
         for tableRecord in dbResultRecords:
-            tableObj = Table(tableRecord[0],  TableTypes.TABLE)
+            tableObj = Table(tableRecord[0], TableTypes.TABLE, self.formatAsMarkdown)
 
             # determine the table type
             if tableRecord[1] == TableTypes.VIEW.value:

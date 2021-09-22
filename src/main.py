@@ -10,7 +10,7 @@ if cliArgs.deleteConfigFile:
     ConfigData.deleteConfigFile()
 
 
-controller = Controller(cliArgs.views)
+controller = Controller(cliArgs.views, cliArgs.markdown)
 controller.loadTables()
 controller.printTables()
 

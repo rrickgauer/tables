@@ -1,13 +1,16 @@
+"""
+********************************************************************************************
 
+This is the main entry point for the entire application.
 
-from tables import constants
+********************************************************************************************
+"""
+
 from tables.cli import CliArgs
 
-
-# main entry point
 def run():
-    connections = constants.getAbs(constants.Files.CONNECTIONS)
-    print(connections)
+    """Main entry point"""
 
     cli_args = CliArgs()
     cli_args.parse()
+    print(cli_args.command)

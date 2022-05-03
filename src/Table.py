@@ -1,21 +1,21 @@
 from __future__ import annotations
 from TableTypes import TableTypes
 from Row import Row
-from prettytable import PrettyTable, MARKDOWN
+from prettytable import PrettyTable
 from DbConnection import DbConnection
 
 
 class Table:
 
-    def __init__(self, name: str, tableType: TableTypes=TableTypes.TABLE, formatAsMarkdown: bool=False):
+    def __init__(self, name: str, tableType: TableTypes=TableTypes.TABLE):
         self._name = name
         self._tableType = tableType
         self._rows = []
-        self.formatAsMarkdown = formatAsMarkdown
 
     @property
     def name(self) -> str:
-        """Name of the table"""
+        """Name of the table
+        """
         return self._name
     
     @name.setter
@@ -24,8 +24,8 @@ class Table:
 
     @property
     def tableType(self) -> TableTypes:
-        """Type of table (base table or view)"""
-        
+        """Type of table (base table or view)
+        """
         return self._tableType
     
     @tableType.setter
@@ -34,7 +34,8 @@ class Table:
 
     @property
     def rows(self) -> list[Row]:
-        """Rows in the table (it's metadata)"""
+        """Rows in the table (it's metadata).
+        """
         return self._rows
 
     @rows.setter
@@ -55,15 +56,15 @@ class Table:
         self._rows.append(rowObj)
 
     def toDict(self) -> dict:
-        """Transform the object to a dict"""
-
+        """Transform the object to a dict
+        """
         outDict = dict(name=self.name, tableType=self.tableType, rows=self.rowsToDict())
 
         return outDict
 
     def rowsToDict(self) -> dict:
-        """Get a transformed list of rows objects to a list row object dictionaries."""
-
+        """Get a transformed list of rows objects to a list row object dictionaries.
+        """
         resultDict = []
 
         for row in self.rows:
@@ -80,16 +81,16 @@ class Table:
     def getPrettyTable(self) -> str:
         prettyTable = PrettyTable(Row.FIELD_NAMES_LIST)
         prettyTable.align = "l"
-
-        if self.formatAsMarkdown:
-            prettyTable.set_style(MARKDOWN)
         
         for row in self.rows:
             prettyTable.add_row(row.toList())
         
-        displayName = self._getDisplayNameText()
+        displayName = self.name
 
-        outText = f'''{displayName}{prettyTable.get_string()}'''
+        if self.tableType == TableTypes.VIEW:
+            displayName = f'''{self.name} (VIEW)'''
+
+        outText = f'''{displayName}:\n{prettyTable.get_string()}'''
 
         return outText
 
@@ -99,21 +100,6 @@ class Table:
         dbCon.cursor.execute(sql)
         self.rows = dbCon.cursor.fetchall()
 
-
-    def _getDisplayNameText(self):
-        displayName = self.name
-
-        if self.tableType == TableTypes.VIEW:
-            displayName = f'''{self.name} (VIEW)'''
-        
-        result = ''
-
-        if self.formatAsMarkdown:
-            result = f'''### {displayName}\n\n'''
-        else:
-            result = f'''{displayName}:\n'''
-        
-        return result
 
 
             

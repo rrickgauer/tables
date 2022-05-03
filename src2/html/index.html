@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet' />
+    <link rel="stylesheet" href="style.css">
+
+    <title>Local read</title>
+
+</head>
+<body>
+
+    <div class="container">
+        
+        <h1 class="text-center my-5" id="db-name">Tables.py</h1>
+
+        <!-- table selector -->
+        <div class="input-group input-group-lg table-selector">
+            <input type="text" class="form-control tablesearch-input" data-tablesearch-table="#data-table" placeholder="Search...">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Table</button>
+                <div class="dropdown-menu dropdown-menu-tables">
+                    <button class="dropdown-item dropdown-item-table" type="button" data-table-index="1">Action</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="left">
+                <h4>Rows <span class="badge badge-secondary" id="num-rows">-</span></h4>
+            </div>
+            
+
+            <div class="right">
+
+                <!-- toggle active rows -->
+                <div class="form-check mr-5">
+                  <input class="form-check-input" type="checkbox" id="toggle-active-rows">
+                  <label class="form-check-label" for="toggle-active-rows">Only highlighted rows</label>
+                </div>
+                
+                <!-- toggle columns -->
+                <div class="dropdown dropdown-toggle-columns">
+                  <button class="btn btn-sm btn-secondary" type="button" data-toggle="dropdown">Columns</button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <button class="dropdown-item active" type="button" data-column-index="0">Row</button>
+                        <button class="dropdown-item active" type="button" data-column-index="1">Field</button>
+                        <button class="dropdown-item active" type="button" data-column-index="2">Type</button>
+                        <button class="dropdown-item active" type="button" data-column-index="3">Null</button>
+                        <button class="dropdown-item active" type="button" data-column-index="4">Key</button>
+                        <button class="dropdown-item active" type="button" data-column-index="5">Default</button>
+                        <button class="dropdown-item active" type="button" data-column-index="6">Extra</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- data table -->
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-sm tablesort tablesearch-table" id="data-table">
+                    <thead>
+                        <tr>
+                            <th data-tablesort-type="int">Row</th>
+                            <th data-tablesort-type="string">Field</th>
+                            <th data-tablesort-type="string">Type</th>
+                            <th data-tablesort-type="string">Null</th>
+                            <th data-tablesort-type="string">Key</th>
+                            <th data-tablesort-type="string">Default</th>
+                            <th data-tablesort-type="string">Extra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- table data goes here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
+    <script src="auto-tables.js"></script>
+    
+    <script src="JS-RAW-TABLE-DATA.js"></script>
+    <script src="classes/Row.js"></script>
+    <script src="classes/Table.js"></script>
+    <script src="classes/HtmlGenerator.js"></script>
+
+    <script src="main.js"></script>
+
+</body>
+</html>

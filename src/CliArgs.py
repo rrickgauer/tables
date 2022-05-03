@@ -1,17 +1,16 @@
 
 from __future__ import annotations
-# from typing import List
 import argparse
 
 
 class CliArgs:
 
     def __init__(self):
-        """Command line parser.
+        """Command line parser class constructor.
         """
         # setup the arg parser
         self.parser = argparse.ArgumentParser(description="View a MySQL Database Schema on the command line.")
-        self._addArguments()
+        self.addArguments()
         self.args = self.parser.parse_args()
 
         self._tables = self.args.tables or list()
@@ -20,51 +19,50 @@ class CliArgs:
         self._deleteConfigFile = self.args.delete
         self._allTables = '*' in self.tables
         self._tableNames = len(self.tables) == 0
-        self._markdown = self.args.markdown
     
 
-    def _addArguments(self):
-        """Add all the arguments to the parser"""
+    def addArguments(self):
         self.parser.add_argument('-t', '--tables', nargs="+", help="List of tables to display, or * for all.")
         self.parser.add_argument('-s', '--save', action="store_true", help="Flag indicating to save the output to a text file.")
         self.parser.add_argument('-d', '--delete', action="store_true", help="Delete current database configuration file?")
         self.parser.add_argument('-v', '--views', action="store_false", help="Include views")
-        self.parser.add_argument('-m', '--markdown', action="store_true", help="Flag indicating that the output should be formatted as markdown.")
 
     @property
     def tables(self) -> list[str]:
-        """List of tables to output."""
+        """List of tables to output.
+        """
         return self._tables
 
     @property
     def save(self) -> bool:
-        """Save the results to an output file?"""
+        """Save the results to an output file?
+        """
         return self._save
     
     @property
     def views(self) -> bool:
-        """Include views in the output?"""
+        """Include views in the output?
+        """
         return self._views
     
     @property
     def deleteConfigFile(self) -> bool:
-        """Delete the current configuration file?"""
+        """Delete the current configuration file?
+        """
         return self._deleteConfigFile
 
     @property
     def allTables(self) -> bool:
-        """Describe all tables?"""
+        """Describe all tables?
+        """
         return self._allTables
 
     @property
     def showTableNames(self) -> bool:
-        """Only report a list of table names"""
+        """Only report a list of table names.
+        """
         return self._tableNames
 
-    @property
-    def markdown(self) -> bool:
-        """Output data with markdown formatting?"""
-        return self._markdown
     
     def toDict(self) -> dict:
         """Returns the object as a dictionary

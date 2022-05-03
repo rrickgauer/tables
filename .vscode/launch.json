@@ -11,7 +11,7 @@
             "module": "tables",
             "console": "externalTerminal",
             "args": [
-                "d",
+                // "d",
             ]
         }
     ]

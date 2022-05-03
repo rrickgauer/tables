@@ -167,3 +167,4 @@ JS-RAW-TABLE-DATA.js
 __pycache__/
 
 .tables-connections.json
+.tables-database_connections.json

@@ -13,8 +13,7 @@ class TablesEnum(Enum):
 
 
 class Files(str, TablesEnum):
-    CONNECTIONS = '.tables-connections.json'
-
+    CONNECTIONS = '.tables-database_connections.json'
 
 def getAbs(file: TablesEnum) -> str:
     return os.path.join(Paths.EXE, file.value)

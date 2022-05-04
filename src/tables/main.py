@@ -23,6 +23,8 @@ def run():
         _run_command_add(cli_args)
     elif cli_args.command == CliCommands.DELETE:
         _run_command_delete(cli_args)
+    elif cli_args.command == CliCommands.VIEW:
+        _run_command_view(cli_args)
     else:
         _run_command_list()
     
@@ -64,9 +66,6 @@ def _run_command_delete(cli_args: cli.CliArgs):
     print('Removed!')
     
 
-
-
-
 def _run_command_list():
     """Run the list command"""
 
@@ -74,4 +73,6 @@ def _run_command_list():
     output = printers.get_database_connections(connections)
     print(f'\n{output}')
 
-    
+
+def _run_command_view(cli_args: cli.CliArgs):
+    print('view a connection')

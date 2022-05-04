@@ -45,19 +45,19 @@ class CliArgs:
         self._add_subparser_list()
         self._add_subparser_add()
         self._add_subparser_delete()
+        self._add_subparser_view()
         
 
     def _add_subparser_list(self):
         """Add the cli flag arguments for the list command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.LIST.value)
-        sub_parser.add_argument('--username', type=str)
+
 
     def _add_subparser_add(self):
         """Add the cli flag arguments for the add command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.ADD.value)
-
         sub_parser.add_argument('--name', type=str, required=False)
         sub_parser.add_argument('--user', type=str, required=False)
         sub_parser.add_argument('--host', type=str, required=False)
@@ -66,10 +66,16 @@ class CliArgs:
 
 
     def _add_subparser_delete(self):
-        """Add the cli flag arguments for the add command."""
+        """Add the cli flag arguments for the delete command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.DELETE.value)
+        sub_parser.add_argument('--name', type=str, required=False)
 
+
+    def _add_subparser_view(self):
+        """Add the cli flag arguments for the view command."""
+
+        sub_parser = self._subparser.add_parser(CliCommands.VIEW.value)
         sub_parser.add_argument('--name', type=str, required=False)
 
 

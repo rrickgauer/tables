@@ -17,6 +17,8 @@ Each command has its own seperate set of flags/arguments.
 from __future__ import annotations
 import argparse
 from tables.domain.enums import CliCommands
+from tables.domain.models import DatabaseConnection
+from tables import serializers
 
 class CliArgs:
 
@@ -24,14 +26,14 @@ class CliArgs:
         """Constructor"""
 
         self._parser = argparse.ArgumentParser(description="Display your mysql database table schemas")
-        self._args = None
+        self.args = None
         self._subparser = None
 
     def parse(self):
         """Parse the command line arguments"""
 
         self._add_arguments()
-        self._args = self._parser.parse_args()
+        self.args = self._parser.parse_args()
 
     def _add_arguments(self):
         """Add all the arguments to the parser"""
@@ -54,7 +56,12 @@ class CliArgs:
         """Add the cli flag arguments for the add command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.ADD.value)
-        # sub_parser.add_argument('--username', type=str)
+
+        sub_parser.add_argument('--name', type=str, required=False)
+        sub_parser.add_argument('--user', type=str, required=False)
+        sub_parser.add_argument('--host', type=str, required=False)
+        sub_parser.add_argument('--database', type=str, required=False)
+        sub_parser.add_argument('--password', type=str, required=False)
 
 
     @property
@@ -62,13 +69,22 @@ class CliArgs:
         """Get the command."""
 
         try:
-            command = CliCommands(self._args.command)
+            command = CliCommands(self.args.command)
         except ValueError:
             command = CliCommands.LIST
 
         return command
 
-        
+
+def get_database_connection(cli_args: CliArgs) -> DatabaseConnection:
+    """Creat a new DatabaseConnection model with property values provided in the CLI args."""
+
+    args_dict = cli_args.args.__dict__
+    return serializers.to_database_connection(args_dict)
+
+
+
+
 
     
     

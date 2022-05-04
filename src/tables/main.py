@@ -6,26 +6,36 @@ This is the main entry point for the entire application.
 ********************************************************************************************
 """
 from __future__ import annotations
-from tables.cli import CliArgs
+from datetime import datetime
+from tables import cli
 from tables.domain.enums import CliCommands
 from tables import services
 from tables import printers
+from tables import prompts
 
 def run():
     """Main entry point"""
 
-    cli_args = CliArgs()
+    cli_args = cli.CliArgs()
     cli_args.parse()
 
     if cli_args.command == CliCommands.ADD:
-        _run_command_add()
+        _run_command_add(cli_args)
     else:
         _run_command_list()
     
 
-def _run_command_add():
-    print('add new connection')
+def _run_command_add(cli_args: cli.CliArgs):
+    # get any cli args for the new connection that were provided in the cli
+    new_connection = cli.get_database_connection(cli_args)
+    new_connection.created_on = datetime.now()
+
+    # fill in any missing required attributes by prompting the user for input
+    prompts.prompt_database_connection(new_connection)
+
     
+
+
 
 def _run_command_list():
     """Run the list command"""

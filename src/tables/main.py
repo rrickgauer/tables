@@ -12,6 +12,7 @@ from tables.domain.enums import CliCommands
 from tables import services
 from tables import printers
 from tables import prompts
+from tables.commands import ViewCommand
 
 def run():
     """Main entry point"""
@@ -84,7 +85,7 @@ def _run_command_view(cli_args: cli.CliArgs):
         return
 
     database_connection = services.get_connection(connection_name)
-
-    print(database_connection)
+    view_command = ViewCommand(database_connection)
+    print(view_command)
 
     

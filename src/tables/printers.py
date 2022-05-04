@@ -1,8 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import json
 import prettytable as pt
 from tables.domain import models
 from tables.errors import PrintersErrors
+from tables.json_encoder import CustomJSONEncoder
 
 PRETTY_TABLE_ALIGN_LEFT = 'l'
 
@@ -52,4 +54,7 @@ def _configure_prettytable(prettytable: pt.PrettyTable):
     # prettytable.set_style(pt.ORGMODE)
 
 
+
+def dump_json(data):
+    return json.dumps(data, indent=4, cls=CustomJSONEncoder)
     

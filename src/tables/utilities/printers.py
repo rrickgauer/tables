@@ -41,6 +41,12 @@ def _get_dataclasses_rows(dataclasses: list[dataclass]) -> list:
 def get_basic_dict_list(objects: list[dict]) -> pt.PrettyTable:
     rows = [list(d.values()) for d in objects]
     prettytable = pt.PrettyTable()
+
+    try:
+        prettytable.field_names = list(objects[0].keys())
+    except:
+        pass
+
     _configure_prettytable(prettytable)
     prettytable.add_rows(rows)
     return prettytable

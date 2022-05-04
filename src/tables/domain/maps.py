@@ -4,3 +4,5 @@ from . import models
 
 
 DatabaseConnectionsMap = t.Dict[str, models.DatabaseConnection]
+
+DatabaseDumpMap = t.Dict[str, models.TableDump]

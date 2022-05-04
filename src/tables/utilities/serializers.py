@@ -1,7 +1,9 @@
 from __future__ import annotations
+from dataclasses import dataclass
 from tables.domain import models, views, enums
 from datetime import datetime
 
+SQL_DATA_ENCODING = 'utf-8'
 
 def to_database_connection(data: dict) -> models.DatabaseConnection:
     """Serialize the given dictionary into a DatabaseConnection object."""
@@ -35,5 +37,37 @@ def to_sql_database_tables_list_view(data: dict) -> views.SqlTableTypeView:
         table_type.table_type = enums.SqlTableType(table_type.table_type)
     
     return table_type
+
+
+
+def serialize_dataclass(data: dict, model_class: dataclass):
+    # get a list of all the Model's attributes
+    model = model_class()
+    model_keys = list(model.__annotations__.keys())
+
+    # if the dict's key is an attribute in the model, copy over the value
+    for key, value in data.items():
+        if not key in model_keys:
+            continue
+        
+        setattr(model, key, value or None)
+
+
+    decode_attribute_values(model)
+
+    return model
+
+
+def decode_attribute_values(model: dataclass):
+    for key, value in model.__dict__.items():
+
+        if not isinstance(value, bytes):
+            continue
+        
+        try:
+            decoded_value = value.decode(SQL_DATA_ENCODING)
+            setattr(model, key, decoded_value)
+        except:
+            pass
 
 

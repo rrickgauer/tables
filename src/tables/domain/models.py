@@ -9,6 +9,8 @@ Domain models
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
+from .enums import SqlTableType
+from .views import SqlColumnDescription
 
 @dataclass
 class DatabaseConnection:
@@ -30,4 +32,8 @@ class ViewCommandCliArgFlags:
     views : bool = False
 
 
-
+@dataclass
+class TableDump:
+    table_name : str                        = None
+    table_type : SqlTableType               = None
+    columns    : list[SqlColumnDescription] = None

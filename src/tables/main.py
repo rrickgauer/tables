@@ -69,10 +69,22 @@ def _run_command_delete(cli_args: cli.CliArgs):
 def _run_command_list():
     """Run the list command"""
 
-    connections = services.get_existing_connections_list()
+    connections = services.get_connections_list()
     output = printers.get_database_connections(connections)
     print(f'\n{output}')
 
 
 def _run_command_view(cli_args: cli.CliArgs):
-    print('view a connection')
+    # prompt user for connection name if it was not provided in the cli args
+    connection_name = cli_args.args.name or input('Name: ')
+
+    # check if the connection name exists
+    if not services.does_connection_name_exist(connection_name):
+        print(f'You do not have a connection named "{connection_name}".')
+        return
+
+    database_connection = services.get_connection(connection_name)
+
+    print(database_connection)
+
+    

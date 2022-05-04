@@ -44,6 +44,7 @@ class CliArgs:
         # add each of the command flag arguments
         self._add_subparser_list()
         self._add_subparser_add()
+        self._add_subparser_delete()
         
 
     def _add_subparser_list(self):
@@ -62,6 +63,14 @@ class CliArgs:
         sub_parser.add_argument('--host', type=str, required=False)
         sub_parser.add_argument('--database', type=str, required=False)
         sub_parser.add_argument('--password', type=str, required=False)
+
+
+    def _add_subparser_delete(self):
+        """Add the cli flag arguments for the add command."""
+
+        sub_parser = self._subparser.add_parser(CliCommands.DELETE.value)
+
+        sub_parser.add_argument('--name', type=str, required=False)
 
 
     @property

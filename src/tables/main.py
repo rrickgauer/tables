@@ -21,6 +21,8 @@ def run():
 
     if cli_args.command == CliCommands.ADD:
         _run_command_add(cli_args)
+    elif cli_args.command == CliCommands.DELETE:
+        _run_command_delete(cli_args)
     else:
         _run_command_list()
     
@@ -44,6 +46,25 @@ def _run_command_add(cli_args: cli.CliArgs):
     services.add_new_connection(new_connection)
 
     print('Added successfully!')
+
+
+def _run_command_delete(cli_args: cli.CliArgs):
+    """Run the delete command."""
+    
+    # prompt user for connection name if it was not provided in the cli args
+    connection_name = cli_args.args.name or input('Name: ')
+
+    # check if the connection name exists
+    if not services.does_connection_name_exist(connection_name):
+        print(f'You do not have a connection named "{connection_name}".')
+        return
+    
+    # delete it from the storage file
+    services.delete_connection(connection_name)
+    print('Removed!')
+    
+
+
 
 
 def _run_command_list():

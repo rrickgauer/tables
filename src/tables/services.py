@@ -58,3 +58,12 @@ def _get_connections_names() -> list[str]:
 
 
 
+def delete_connection(name):
+    """Delete the specified connection from the storage file."""
+    
+    connections = get_existing_connections_map()
+    connections.pop(name)
+    _save_connections_map(connections)
+
+
+

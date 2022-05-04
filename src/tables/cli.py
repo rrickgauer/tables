@@ -41,6 +41,7 @@ class CliArgs:
 
         # add each of the command flag arguments
         self._add_subparser_list()
+        self._add_subparser_add()
         
 
     def _add_subparser_list(self):
@@ -48,6 +49,12 @@ class CliArgs:
 
         sub_parser = self._subparser.add_parser(CliCommands.LIST.value)
         sub_parser.add_argument('--username', type=str)
+
+    def _add_subparser_add(self):
+        """Add the cli flag arguments for the add command."""
+
+        sub_parser = self._subparser.add_parser(CliCommands.ADD.value)
+        # sub_parser.add_argument('--username', type=str)
 
 
     @property

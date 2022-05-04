@@ -17,14 +17,21 @@ def run():
     cli_args = CliArgs()
     cli_args.parse()
 
-    if cli_args.command == CliCommands.LIST:
+    if cli_args.command == CliCommands.ADD:
+        _run_command_add()
+    else:
         _run_command_list()
+    
+
+def _run_command_add():
+    print('add new connection')
+    
 
 def _run_command_list():
     """Run the list command"""
 
     connections = services.get_existing_connections_list()
-    print("\n")
-    print(printers.get_database_connections(connections))
+    output = printers.get_database_connections(connections)
+    print(f'\n{output}')
 
     

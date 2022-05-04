@@ -21,7 +21,13 @@ class DatabaseConnection:
     password  : str      = None
     created_on: datetime = None
 
+@dataclass
+class ViewCommandCliArgFlags:
+    """Optional cli flags for the view command."""
 
+    all   : bool = False
+    tables: bool = False
+    views : bool = False
 
 
 

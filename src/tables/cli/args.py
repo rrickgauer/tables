@@ -74,8 +74,10 @@ class CliArgs:
         """Add the cli flag arguments for the view command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.VIEW.value)
-        sub_parser.add_argument('--name', type=str, required=False)
-
+        sub_parser.add_argument('-n', '--name', type=str, required=False, help="Database connection name.")
+        sub_parser.add_argument('-a', '--all', action="store_true", help="Dump table and view schemas.")
+        sub_parser.add_argument('-t', '--tables', action="store_true", help="Dump table schemas.")
+        sub_parser.add_argument('-v', '--views', action="store_true", help="Dump view schemas.")
 
     @property
     def command(self) -> CliCommands:

@@ -84,11 +84,47 @@ def _run_command_view(cli_args: cli.CliArgs):
     if not services.does_connection_name_exist(connection_name):
         print(f'You do not have a connection named "{connection_name}".')
         return
-
+    
+    # setup the database credentials so we can fetch the table schemas
     database_connection = services.get_connection(connection_name)
     set_pymysql_credentials(database_connection)
-    
     view_command = ViewCommand(database_connection.database)
     view_command.load_tables()
 
-    print(printers.print_dataclasses(view_command._tables))
+    # determine which dump we should do
+    command_args = cli.get_view_command_cli_flags(cli_args)
+
+    # print list of tables/view
+    if True not in [command_args.all, command_args.tables, command_args.views]:
+        view_command.dump_tables_list()
+        # print(printers.print_dataclasses(view_command._tables))
+        return 
+
+    # dump all
+    if command_args.all:
+        command_args.tables = False
+        command_args.views  = False
+
+    # both -v and -t flags were set, so just pretend like its a dump all
+    elif False not in [command_args.tables, command_args.views]:
+        command_args.all    = True
+        command_args.tables = False
+        command_args.views  = False
+
+    if command_args.views:
+        view_command.dump_views()
+    elif command_args.tables:
+        view_command.dump_tables()
+    else:
+        view_command.dump_all()
+        
+
+    
+    
+
+    
+        
+    
+
+
+    

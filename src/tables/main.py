@@ -21,6 +21,8 @@ def run():
 
     if cli_args.command == CliCommands.ADD:
         _run_command_add(cli_args)
+    elif cli_args.command == CliCommands.DELETE:
+        _run_command_delete(cli_args)
     else:
         _run_command_list()
     
@@ -44,6 +46,14 @@ def _run_command_add(cli_args: cli.CliArgs):
     services.add_new_connection(new_connection)
 
     print('Added successfully!')
+
+
+
+def _run_command_delete(cli_args: cli.CliArgs):
+    """Run the delete command."""
+    
+    print('delete')
+
 
 
 def _run_command_list():

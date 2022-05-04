@@ -6,7 +6,7 @@ from tables.utilities.serializers import to_database_connection
 from tables.domain import constants
 
 
-def get_connection(name) -> maps.DatabaseConnectionsMap | None:
+def get_connection(name) -> models.DatabaseConnection | None:
     """Get the specified connection object from the storage file."""
 
     connections = get_connections_map()

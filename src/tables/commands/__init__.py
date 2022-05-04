@@ -1,2 +1,2 @@
-from .base_command import BaseCommand as BaseCommand
+from .base import BaseCommand as BaseCommand
 from .view import ViewCommand as ViewCommand

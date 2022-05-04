@@ -12,6 +12,7 @@ from tables.domain.enums import CliCommands
 from tables.persistence import services
 from tables.utilities import printers
 from tables.utilities import prompts
+from tables.utilities.routines import set_pymysql_credentials
 from tables.commands import ViewCommand
 
 def run():
@@ -71,7 +72,7 @@ def _run_command_list():
     """Run the list command"""
 
     connections = services.get_connections_list()
-    output = printers.get_database_connections(connections)
+    output = printers.print_dataclasses(connections)
     print(f'\n{output}')
 
 
@@ -85,11 +86,9 @@ def _run_command_view(cli_args: cli.CliArgs):
         return
 
     database_connection = services.get_connection(connection_name)
+    set_pymysql_credentials(database_connection)
     
-    view_command = ViewCommand(database_connection)
-    # print(view_command)
+    view_command = ViewCommand(database_connection.database)
     view_command.load_tables()
 
-
-
-    
+    print(printers.print_dataclasses(view_command._tables))

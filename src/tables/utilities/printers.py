@@ -8,24 +8,24 @@ from tables.persistence.json_encoder import CustomJSONEncoder
 
 PRETTY_TABLE_ALIGN_LEFT = 'l'
 
-def get_database_connections(database_connections: list[models.DatabaseConnection]) -> str:
-    """Get a prettified table form of the specified database connections."""
+def print_dataclasses(dataclasses: list[dataclass]) -> pt.PrettyTable:
+    """Create a PrettyTable of the specified list of dataclasses."""
 
     # do some validation on the argument
-    if not database_connections:
+    if not dataclasses:
         raise PrintersErrors.PRINT_OBJECTS_ARG_NULL
-    elif not isinstance(database_connections, list):
+    elif not isinstance(dataclasses, list):
         raise PrintersErrors.PRINT_OBJECTS_ARG_NOT_LIST
 
     # creat a new PrettyTable object with the argument's field names
-    field_names = list(database_connections[0].__dict__.keys())
+    field_names = list(dataclasses[0].__dict__.keys())
     prettytable = pt.PrettyTable(field_names)
 
     # configure the looks of the table
     _configure_prettytable(prettytable)
 
     # add all the database connection rows to the table
-    rows = _get_dataclasses_rows(database_connections)
+    rows = _get_dataclasses_rows(dataclasses)
     prettytable.add_rows(rows)
 
     return prettytable

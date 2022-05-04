@@ -1,6 +1,6 @@
 from __future__ import annotations
 from tables.domain import models, views
-from .base_command import BaseCommand
+from .base import BaseCommand
 from tables.utilities import printers
 from tables.utilities import serializers
 from tables.sql import SqlEngine
@@ -9,29 +9,20 @@ from tables.sql import SqlEngine
 class ViewCommand(BaseCommand):
     """Execute a view command."""
     
-    def __init__(self, connection: models.DatabaseConnection):
-        self._connection = connection
-        self._sql_engine: SqlEngine = None
+    def __init__(self, database: str):
+        self._sql_engine = SqlEngine()
+        self._database = database
         self._tables: list[views.SqlTableTypeView] = None
 
 
     def load_tables(self):
         """Fetch the tables list and start up the sql engine."""
-        self._setup_engine()
-        self._fetch_tables_list()
 
-    def _setup_engine(self):
-        """Start up the sql engine"""
+        db_result = self._sql_engine.get_all_database_tables(self._database)
         
-        self._sql_engine = SqlEngine(self._connection.user, self._connection.password, self._connection.database, self._connection.host)
-        self._sql_engine.start()
-
-    def _fetch_tables_list(self):
-        """Fetch a list of all the database's tables and their type."""
-
-        db_result = self._sql_engine.get_all_database_tables()
         if not db_result.successful:
             raise db_result.error
         
         table_dicts = db_result.data or []
-        self._tables = [serializers.to_sql_database_tables_list_view(t) for t in table_dicts]
+        self._tables = [serializers.to_sql_database_tables_list_view(t) for t in table_dicts]   
+

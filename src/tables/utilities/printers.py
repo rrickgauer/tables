@@ -3,8 +3,8 @@ from dataclasses import dataclass
 import json
 import prettytable as pt
 from tables.domain import models
-from tables.errors import PrintersErrors
-from tables.json_encoder import CustomJSONEncoder
+from tables.domain.errors import PrintersErrors
+from tables.persistence.json_encoder import CustomJSONEncoder
 
 PRETTY_TABLE_ALIGN_LEFT = 'l'
 

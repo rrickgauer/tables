@@ -1,5 +1,5 @@
 from __future__ import annotations
-from tables.printers import dump_json
+from tables.utilities.printers import dump_json
 
 class BaseCommand:
     

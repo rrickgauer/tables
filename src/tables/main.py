@@ -9,9 +9,9 @@ from __future__ import annotations
 from datetime import datetime
 from tables import cli
 from tables.domain.enums import CliCommands
-from tables import services
-from tables import printers
-from tables import prompts
+from tables.persistence import services
+from tables.utilities import printers
+from tables.utilities import prompts
 from tables.commands import ViewCommand
 
 def run():

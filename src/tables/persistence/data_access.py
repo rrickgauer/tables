@@ -1,7 +1,7 @@
 from __future__ import annotations
 import json
 from json import JSONDecodeError
-from tables.constants import getAbs, Files
+from tables.domain.constants import getAbs, Files
 from .json_encoder import CustomJSONEncoder
 
 

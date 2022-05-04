@@ -1,8 +1,8 @@
 from __future__ import annotations
 from tables.domain import models, views
 from .base_command import BaseCommand
-from tables import printers
-from tables import serializers
+from tables.utilities import printers
+from tables.utilities import serializers
 from tables.sql import SqlEngine
 
 
@@ -22,13 +22,8 @@ class ViewCommand(BaseCommand):
 
     def _setup_engine(self):
         """Start up the sql engine"""
-        self._sql_engine = SqlEngine(
-            user     = self._connection.user,
-            password = self._connection.password,
-            database = self._connection.database,
-            host     = self._connection.host,
-        )
-
+        
+        self._sql_engine = SqlEngine(self._connection.user, self._connection.password, self._connection.database, self._connection.host)
         self._sql_engine.start()
 
     def _fetch_tables_list(self):

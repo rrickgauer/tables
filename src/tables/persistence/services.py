@@ -1,9 +1,9 @@
 from __future__ import annotations
 from tables.domain import models
 from tables.domain import maps
-from tables import data_access
-from tables.serializers import to_database_connection
-from tables import constants
+from tables.persistence import data_access
+from tables.utilities.serializers import to_database_connection
+from tables.domain import constants
 
 
 def get_connection(name) -> maps.DatabaseConnectionsMap | None:

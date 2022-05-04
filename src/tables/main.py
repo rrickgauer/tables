@@ -9,6 +9,7 @@ from __future__ import annotations
 from tables.cli import CliArgs
 from tables.domain.enums import CliCommands
 from tables import services
+from tables import printers
 
 def run():
     """Main entry point"""
@@ -22,10 +23,8 @@ def run():
 def _run_command_list():
     """Run the list command"""
 
-    for conn in services.get_existing_connections_list():
-        print(conn)
-        print("\n" * 2)
-
-
+    connections = services.get_existing_connections_list()
+    print("\n")
+    print(printers.get_database_connections(connections))
 
     

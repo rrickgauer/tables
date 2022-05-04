@@ -13,10 +13,11 @@ from datetime import datetime
 @dataclass
 class DatabaseConnection:
     """Database Connection"""
-
+    
+    name      : str      = None
     user      : str      = None
     host      : str      = None
     database  : str      = None
     password  : str      = None
-    name      : str      = None
     created_on: datetime = None
+

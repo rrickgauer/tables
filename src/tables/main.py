@@ -97,7 +97,6 @@ def _run_command_view(cli_args: cli.CliArgs):
     # print list of tables/view
     if True not in [command_args.all, command_args.tables, command_args.views]:
         view_command.dump_tables_list()
-        # print(printers.print_dataclasses(view_command._tables))
         return 
 
     # dump all

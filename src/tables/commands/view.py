@@ -2,21 +2,20 @@ from __future__ import annotations
 from tables.domain import views
 from .base import BaseCommand
 from tables.utilities import serializers
-from tables.sql import SqlEngine
+from tables import sql as sql_engine
 
 class ViewCommand(BaseCommand):
     """Execute a view command."""
     
     def __init__(self, database: str):
-        self._sql_engine = SqlEngine()
         self._database = database
         self._tables: list[views.SqlTableTypeView] = None
 
     def load_tables(self):
         """Fetch the tables list and start up the sql engine."""
 
-        db_result = self._sql_engine.get_all_database_tables(self._database)
-
+        db_result = sql_engine.get_all_database_tables(self._database)
+        
         if not db_result.successful:
             raise db_result.error
         
@@ -25,6 +24,7 @@ class ViewCommand(BaseCommand):
 
     def dump_tables_list(self):
         print('dump table list')
+
 
     def dump_all(self):
         print('dump all')

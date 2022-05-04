@@ -85,7 +85,11 @@ def _run_command_view(cli_args: cli.CliArgs):
         return
 
     database_connection = services.get_connection(connection_name)
+    
     view_command = ViewCommand(database_connection)
-    print(view_command)
+    # print(view_command)
+    view_command.load_tables()
+
+
 
     

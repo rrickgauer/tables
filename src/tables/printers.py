@@ -29,14 +29,23 @@ def get_database_connections(database_connections: list[models.DatabaseConnectio
     prettytable.add_rows(rows)
 
     return prettytable
-    
-    
 
 def _get_dataclasses_rows(dataclasses: list[dataclass]) -> list:
     """Get a list of all the values in the specified list of dataclasses"""
 
     rows = [list(data_class.__dict__.values()) for data_class in dataclasses]
     return rows
+
+
+
+def get_basic_dict_list(objects: list[dict]) -> pt.PrettyTable:
+    rows = [list(d.values()) for d in objects]
+    prettytable = pt.PrettyTable()
+    _configure_prettytable(prettytable)
+    prettytable.add_rows(rows)
+    return prettytable
+
+
 
 
 def _configure_prettytable(prettytable: pt.PrettyTable):
@@ -46,7 +55,7 @@ def _configure_prettytable(prettytable: pt.PrettyTable):
     prettytable.align = PRETTY_TABLE_ALIGN_LEFT
 
     # border/overall look
-    prettytable.set_style(pt.SINGLE_BORDER)
+    # prettytable.set_style(pt.SINGLE_BORDER)
     # prettytable.set_style(pt.MSWORD_FRIENDLY)
     # prettytable.set_style(pt.MARKDOWN)
     # prettytable.set_style(pt.DOUBLE_BORDER)

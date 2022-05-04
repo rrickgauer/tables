@@ -1,5 +1,5 @@
 from __future__ import annotations
-from tables.domain import models
+from tables.domain import models, views, enums
 from datetime import datetime
 
 
@@ -21,4 +21,19 @@ def to_database_connection(data: dict) -> models.DatabaseConnection:
         pass
 
     return database_connection
+
+
+def to_sql_database_tables_list_view(data: dict) -> views.SqlTableTypeView:
+    """Serialize the specified dictionary into a SqlTableTypeView object."""
+    
+    table_type = views.SqlTableTypeView(
+        table_name = data.get('table_name') or None,
+        table_type = data.get('table_type') or None,
+    )
+
+    if table_type.table_type:
+        table_type.table_type = enums.SqlTableType(table_type.table_type)
+    
+    return table_type
+
 

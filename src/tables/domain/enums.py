@@ -37,3 +37,11 @@ class CliCommands(ExtendedEnum):
     ADD    = 'add'
     VIEW   = 'view'
     DELETE = 'delete'
+
+
+
+class SqlTableType(ExtendedEnum):
+    """MySQL Table Types"""
+
+    TABLE = 'BASE TABLE'
+    VIEW = 'VIEW'

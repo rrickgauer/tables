@@ -13,7 +13,9 @@ class TablesEnum(Enum):
 
 
 class Files(str, TablesEnum):
+    DIRECTORY = 'data-files'
     CONNECTIONS = '.tables-database_connections.json'
 
+
 def getAbs(file: TablesEnum) -> str:
-    return os.path.join(Paths.EXE, file.value)
+    return os.path.join(Paths.EXE, Files.DIRECTORY.value, file.value)

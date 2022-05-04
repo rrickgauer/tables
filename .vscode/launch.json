@@ -5,14 +5,39 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug",
+            "name": "Debug - list",
             "type": "python",
             "request": "launch",
             "module": "tables",
             "console": "externalTerminal",
             "args": [
-                // "d",
+                "list",
             ]
-        }
+        },
+        {
+            "name": "Debug - Add",
+            "type": "python",
+            "request": "launch",
+            "module": "tables",
+            "console": "externalTerminal",
+            "args": [
+                "add",
+                "--name",
+                "new name",
+                
+                "--user",
+                "main232",
+                
+                "--host",
+                "446.58.5565",
+             
+                "--database",
+                "User_Names",
+                
+                "--password",
+                "dw43vs3FS#",
+            ]
+        },
+
     ]
 }

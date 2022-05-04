@@ -17,7 +17,7 @@ def to_database_connection(data: dict) -> models.DatabaseConnection:
 
     try:
         database_connection.created_on = datetime.fromisoformat(database_connection.created_on)
-    except ValueError:
+    except (ValueError, TypeError):
         pass
 
     return database_connection

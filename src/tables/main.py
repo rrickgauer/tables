@@ -10,7 +10,7 @@ from datetime import datetime
 from tables import cli
 from tables.domain.enums import CliCommands
 from tables.persistence import services
-from tables.utilities import printers
+from tables.utilities import prettytables
 from tables.utilities import prompts
 from tables.utilities.routines import set_pymysql_credentials
 from tables.commands import ViewCommand
@@ -72,7 +72,7 @@ def _run_command_list():
     """Run the list command"""
 
     connections = services.get_connections_list()
-    output = printers.print_dataclasses(connections)
+    output = prettytables.dataclasses_to_prettytable(connections)
     print(f'\n{output}')
 
 
@@ -105,7 +105,7 @@ def _run_command_view(cli_args: cli.CliArgs):
 
     # print list of tables/view
     if True not in [command_args.all, command_args.tables, command_args.views]:
-        print(printers.print_dataclasses(view_command.dump_tables_list()))
+        print(prettytables.dataclasses_to_prettytable(view_command.dump_tables_list()))
         return 
 
     # dump all
@@ -120,16 +120,20 @@ def _run_command_view(cli_args: cli.CliArgs):
         command_args.views  = False
 
     if command_args.views:
-        dump = view_command.dump_views()
+        dump_data = view_command.dump_views()
     elif command_args.tables:
-        dump = view_command.dump_tables()
+        dump_data = view_command.dump_tables()
     else:
-        dump = view_command.dump_all()
-
+        dump_data = view_command.dump_all()
 
     table_columns = cli.get_view_command_columns(cli_args)
 
-    print(printers.dump_json(dump))
+    for table_name, table_dump in dump_data.items():
+        prettytable = prettytables.dataclasses_to_prettytable(table_dump.columns)
+
+        print(f'{table_name} [{table_dump.table_type.value}]')
+        print(prettytable.get_string(fields=table_columns))
+        print("\n" * 2)
         
 
     

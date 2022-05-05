@@ -8,7 +8,7 @@ from tables.persistence.json_encoder import CustomJSONEncoder
 
 PRETTY_TABLE_ALIGN_LEFT = 'l'
 
-def print_dataclasses(dataclasses: list[dataclass]) -> pt.PrettyTable:
+def dataclasses_to_prettytable(dataclasses: list[dataclass]) -> pt.PrettyTable:
     """Create a PrettyTable of the specified list of dataclasses."""
 
     # do some validation on the argument
@@ -37,8 +37,7 @@ def _get_dataclasses_rows(dataclasses: list[dataclass]) -> list:
     return rows
 
 
-
-def get_basic_dict_list(objects: list[dict]) -> pt.PrettyTable:
+def dicts_to_prettytable(objects: list[dict]) -> pt.PrettyTable:
     rows = [list(d.values()) for d in objects]
     prettytable = pt.PrettyTable()
 

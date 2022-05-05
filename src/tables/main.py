@@ -77,6 +77,15 @@ def _run_command_list():
 
 
 def _run_command_view(cli_args: cli.CliArgs):
+    """Run the list command
+    
+    You can either output:
+        - the list of tables/views
+        - dump all the tables and views schemas
+        - dump the table schemas
+        - dump the view schemas
+    """
+
     # prompt user for connection name if it was not provided in the cli args
     connection_name = cli_args.args.name or input('Name: ')
 

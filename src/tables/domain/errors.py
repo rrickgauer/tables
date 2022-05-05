@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-
 class TablesException(Exception):
     pass
-
 
 class PrintersErrors:
     PRINT_OBJECTS_ARG_NULL = TablesException("data argument is None")

@@ -126,6 +126,9 @@ def _run_command_view(cli_args: cli.CliArgs):
     else:
         dump = view_command.dump_all()
 
+
+    table_columns = cli.get_view_command_columns(cli_args)
+
     print(printers.dump_json(dump))
         
 

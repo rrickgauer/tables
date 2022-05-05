@@ -2,6 +2,7 @@ from __future__ import annotations
 from .args import CliArgs
 from tables.domain.models import DatabaseConnection, ViewCommandCliArgFlags
 from tables.utilities import serializers
+from .choices import VIEW_COLUMN_CHOICES_DEFAULT
 
 def get_database_connection(cli_args: CliArgs) -> DatabaseConnection:
     """Creat a new DatabaseConnection model with property values provided in the CLI args."""
@@ -22,3 +23,8 @@ def get_view_command_cli_flags(cli_args: CliArgs) -> ViewCommandCliArgFlags:
     )
 
     return flags
+
+
+def get_view_command_columns(cli_args: CliArgs) -> list[str]:
+    return cli_args.args.columns or VIEW_COLUMN_CHOICES_DEFAULT
+    

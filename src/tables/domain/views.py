@@ -14,11 +14,14 @@ class SqlTableTypeView:
 
 @dataclass
 class SqlColumnDescription:
-    
     ordinal_position         : int = None
     column_name              : str = None
+    column_type              : str = None
     column_default           : str = None
     is_nullable              : str = None
+    extra                    : str = None
+
+    # additional columns
     data_type                : str = None
     character_maximum_length : int = None
     character_octet_length   : int = None
@@ -27,9 +30,7 @@ class SqlColumnDescription:
     datetime_precision       : int = None
     character_set_name       : str = None
     collation_name           : str = None
-    column_type              : str = None
     column_key               : str = None
-    extra                    : str = None
     privileges               : str = None
     column_comment           : str = None
     generation_expression    : str = None

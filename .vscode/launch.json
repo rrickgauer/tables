@@ -38,6 +38,31 @@
                 "dw43vs3FS#",
             ]
         },
+        {
+            "name": "Debug - view",
+            "type": "python",
+            "request": "launch",
+            "module": "tables",
+            "console": "externalTerminal",
+            "args": [
+                "view",
+                "--name", "lists-dev",
 
+                "--all",
+                // "--tables",
+                // "--views",
+                
+                // "--columns", "column_name", "column_type",
+                
+                // "--output", "tables-output.txt",
+                
+                // "--format", "table",
+                // "--format", "markdown",
+                "--format", "html",
+                // "--format", "json",
+
+                // "--sort", "column_name",
+            ]
+        }
     ]
 }

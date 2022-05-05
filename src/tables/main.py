@@ -86,8 +86,12 @@ def _run_command_view(cli_args: cli.CliArgs):
         - dump the view schemas
     """
 
+    # determine which dump we should do
+    command_args = cli.get_view_command_cli_flags(cli_args)
+    print(command_args)
+    
     # prompt user for connection name if it was not provided in the cli args
-    connection_name = cli_args.args.name or input('Name: ')
+    connection_name = command_args.name or input('Name: ')
 
     # check if the connection name exists
     if not services.does_connection_name_exist(connection_name):
@@ -99,9 +103,6 @@ def _run_command_view(cli_args: cli.CliArgs):
     set_pymysql_credentials(database_connection)
     view_command = ViewCommand(database_connection.database)
     view_command.load_tables()
-
-    # determine which dump we should do
-    command_args = cli.get_view_command_cli_flags(cli_args)
 
     # print list of tables/view
     if True not in [command_args.all, command_args.tables, command_args.views]:
@@ -119,6 +120,7 @@ def _run_command_view(cli_args: cli.CliArgs):
         command_args.tables = False
         command_args.views  = False
 
+    # get the table column schemas of either the tables, views, or both
     if command_args.views:
         dump_data = view_command.dump_views()
     elif command_args.tables:
@@ -126,7 +128,8 @@ def _run_command_view(cli_args: cli.CliArgs):
     else:
         dump_data = view_command.dump_all()
 
-    table_columns = cli.get_view_command_columns(cli_args)
+    # only print out the specified table columns
+    table_columns = command_args.columns
 
     for table_name, table_dump in dump_data.items():
         prettytable = prettytables.dataclasses_to_prettytable(table_dump.columns)

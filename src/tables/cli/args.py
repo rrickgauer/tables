@@ -16,7 +16,7 @@ Each command has its own seperate set of flags/arguments.
 
 from __future__ import annotations
 import argparse
-from tables.domain.enums import CliCommands
+from tables.domain.enums import CliCommands, ViewCommandOutputFormat
 from .choices import VIEW_COLUMN_CHOICES_ALL
 
 class CliArgs:
@@ -75,13 +75,16 @@ class CliArgs:
         """Add the cli flag arguments for the view command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.VIEW.value)
-        sub_parser.add_argument('-n', '--name', type=str, required=False, help="Database connection name.")
-
+        
+        sub_parser.add_argument('-n', '--name', type=str, required=False, help="Database connection name.", metavar='')
         sub_parser.add_argument('-a', '--all', action="store_true", help="Dump table and view schemas.")
         sub_parser.add_argument('-t', '--tables', action="store_true", help="Dump table schemas.")
         sub_parser.add_argument('-v', '--views', action="store_true", help="Dump view schemas.")
-
         sub_parser.add_argument('-c', '--columns', choices=VIEW_COLUMN_CHOICES_ALL, nargs="+", type=str, action="extend", metavar='')
+        sub_parser.add_argument('-o', '--output', type=str, required=False, help="Write output to file.", metavar='')
+        sub_parser.add_argument('-f', '--format', type=str, required=False, metavar='', choices=ViewCommandOutputFormat.values(), default=ViewCommandOutputFormat.TABLE.value, help="'table', 'markdown', 'html', 'json'")
+        sub_parser.add_argument('-s', '--sort', type=str, choices=VIEW_COLUMN_CHOICES_ALL, metavar='', help='Sort by column.', required=False)
+
 
     @property
     def command(self) -> CliCommands:
@@ -95,3 +98,4 @@ class CliArgs:
         return command
 
         
+ 

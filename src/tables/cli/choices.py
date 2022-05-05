@@ -11,3 +11,5 @@ VIEW_COLUMN_CHOICES_DEFAULT = [
     'is_nullable',
     'extra',
 ]
+
+

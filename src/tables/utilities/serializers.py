@@ -1,19 +1,12 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from tables.cli.choices import VIEW_COLUMN_CHOICES_DEFAULT
 from tables.domain import models, views, enums, constants
 from datetime import datetime
 
 def to_database_connection(data: dict) -> models.DatabaseConnection:
     """Serialize the given dictionary into a DatabaseConnection object."""
-
-    database_connection = models.DatabaseConnection(
-        user       = data.get('user') or None,
-        host       = data.get('host') or None,
-        database   = data.get('database') or None,
-        password   = data.get('password') or None,
-        name       = data.get('name') or None,
-        created_on = data.get('created_on') or None,
-    )
+    database_connection = serialize_dataclass(data, models.DatabaseConnection)
 
     try:
         database_connection.created_on = datetime.fromisoformat(database_connection.created_on)
@@ -37,6 +30,21 @@ def to_sql_database_tables_list_view(data: dict) -> views.SqlTableTypeView:
     return table_type
 
 
+def serialize_view_command_cli_arg_flags(data: dict) -> models.ViewCommandCliArgFlags:
+    """Serialize the dictionary into a ViewCommandCliArgFlags object."""
+
+    model = serialize_dataclass(data, models.ViewCommandCliArgFlags)
+
+    try:
+        model.format = enums.ViewCommandOutputFormat(model.format)
+    except:
+        model.format = enums.ViewCommandOutputFormat.TABLE
+
+    if model.columns is None:
+        model.columns = VIEW_COLUMN_CHOICES_DEFAULT
+
+    return model
+
 
 def serialize_dataclass(data: dict, model_class: dataclass):
     """Create an instance of the specified dataclass with values from the given dictionary."""
@@ -49,8 +57,11 @@ def serialize_dataclass(data: dict, model_class: dataclass):
     for key, value in data.items():
         if not key in model_keys:
             continue
+
+        # if value is not None:
+        setattr(model, key, value)
         
-        setattr(model, key, value or None)
+        # setattr(model, key, value or None)
 
     decode_attribute_values(model)
 
@@ -63,11 +74,9 @@ def decode_attribute_values(model: dataclass):
     for key, value in model.__dict__.items():
         if not isinstance(value, bytes):
             continue
-        
+    
         try:
             decoded_value = value.decode(constants.SQL_DATA_ENCODING)
             setattr(model, key, decoded_value)
         except:
             pass
-
-

@@ -45,3 +45,10 @@ class SqlTableType(ExtendedEnum):
 
     TABLE = 'BASE TABLE'
     VIEW = 'VIEW'
+
+
+class ViewCommandOutputFormat(str, ExtendedEnum):
+    TABLE    = 'table'
+    MARKDOWN = 'markdown'
+    HTML     = 'html'
+    JSON     = 'json'

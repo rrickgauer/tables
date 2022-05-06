@@ -4,9 +4,8 @@ This is a python script that lets users quickly view their database table schema
 
 ## Installation
 
-Go to your directory and download/clone this repository via:
-```
-git clone https://github.com/rrickgauer/tables.git
+```sh
+pip install git+https://github.com/rrickgauer/tables.git@branch-issue-18
 ```
 
 ## Usage

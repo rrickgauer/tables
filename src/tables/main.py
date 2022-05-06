@@ -76,6 +76,10 @@ def _run_command_list():
     """Run the list command"""
 
     connections = services.get_connections_list()
+    if not connections:
+        print('No connections saved!')
+        return 
+
     output = prettytables.dataclasses_to_prettytable(connections)
     print(f'\n{output}')
 

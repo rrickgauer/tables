@@ -19,7 +19,7 @@ def _read_json_file(file_name) -> dict | list | None:
     try:
         json_file = open(file_name, 'r')
     except FileNotFoundError:
-        json_file.close()
+        # json_file.close()
         write_to_file(file_name, '{}')
         return None
 

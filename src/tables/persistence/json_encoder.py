@@ -8,26 +8,34 @@
 #
 #           The solution was found: https://www.javaer101.com/en/article/1732830.html
 #************************************************************************************
+import dataclasses
 from enum import Enum
-from flask.json import JSONEncoder
+from uuid import UUID
+from json import JSONEncoder
 from datetime import date, datetime
 from decimal import Decimal
 
+class IDictable:
+    pass
+
 class CustomJSONEncoder(JSONEncoder):
+    
     def default(self, obj):
         try:
-            if isinstance(obj, datetime):
+            if isinstance(obj, IDictable) and hasattr(obj, "__dict__"):
+                return obj.__dict__
+            if isinstance(obj, (date, datetime)):
                 return obj.isoformat()
-            elif isinstance(obj, Decimal):
+            if isinstance(obj, UUID):
+                return str(obj)
+            if dataclasses.is_dataclass(obj):
+                return dataclasses.asdict(obj)
+            if isinstance(obj, Decimal):
                 return float(obj)
-            elif isinstance(obj, Enum):
+            if isinstance(obj, Enum):
                 return obj.value
-            elif issubclass(obj, Enum):
-                return obj.value
-            iterable = iter(obj)
-        except TypeError:
+        except:
             pass
-        else:
-            return list(iterable)
 
-        return JSONEncoder.default(self, obj)
+        return super().default(obj)
+            

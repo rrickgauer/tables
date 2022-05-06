@@ -5,60 +5,17 @@ This is a python script that lets users quickly view their database table schema
 ## Installation
 
 ```sh
-pip install git+https://github.com/rrickgauer/tables.git@branch-issue-18
+pip install git+https://github.com/rrickgauer/tables.git
 ```
 
 ## Usage
 
-Make sure you are in the same directory as your ```tables.py``` file. There are 2 ways to use this:
+To run:
 
-1. Print a list of all the table names
-    * Similar to ```SHOW TABLES;```
-2. Print a list table(s) fields and types
-    * Similar to ```DESCRIBE Table;```
-
-### Show Tables
-
-To get a list of all the tables in your database:
-```
-py tables.py
+```sh
+tables [list, view, delete, add]
 ```
 
-### Describe Table(s)
-
-To describe a single table, just include the table name in the ```--table``` argument.
-```
-py tables.py -t table_name
-```
-
-You can also list multiple table names:
-```
-py tables.py -t table_one table_two table_three
-```
-
-If you want to describe all of the tables in the database, simply use * for the table name:
-```
-py tables.py -t *
-```
-
-### Output
-
-There are 3 different output options: *display*, *save*, or *both*. The corresponding argument is ```-o``` or ```--output```. It defaults to display.
-
-The display option prints the output to your console screen:
-```
-py tables.py -t table_one -o display
-```
-
-The *save* option saves the output to a file called *tables.output.txt*:
-```
-py tables.py -t table_one -o save
-```
-
-Lastly, the *both* option prints the output to the console, and saves the output to the *tables.output.txt* file.
-```
-py tables.py -t table_one -o both
-```
 
 ## Additional notes
 

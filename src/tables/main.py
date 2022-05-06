@@ -13,7 +13,7 @@ from tables.persistence import services
 from tables.utilities import prettytables
 from tables.utilities import prompts
 from tables.utilities.routines import set_pymysql_credentials
-from tables.commands import ViewCommand
+from tables.schemas import Schemas
 
 def run():
     """Main entry point"""
@@ -101,12 +101,12 @@ def _run_command_view(cli_args: cli.CliArgs):
     # setup the database credentials so we can fetch the table schemas
     database_connection = services.get_connection(connection_name)
     set_pymysql_credentials(database_connection)
-    view_command = ViewCommand(database_connection.database)
-    view_command.load_tables()
+    schemas = Schemas(database_connection.database)
+    schemas.load_tables()
 
     # print list of tables/view
     if True not in [command_args.all, command_args.tables, command_args.views]:
-        print(prettytables.dataclasses_to_prettytable(view_command.dump_tables_list()))
+        print(prettytables.dataclasses_to_prettytable(schemas.dump_tables_list()))
         return 
 
     # dump all
@@ -122,11 +122,11 @@ def _run_command_view(cli_args: cli.CliArgs):
 
     # get the table column schemas of either the tables, views, or both
     if command_args.views:
-        dump_data = view_command.dump_views()
+        dump_data = schemas.dump_views()
     elif command_args.tables:
-        dump_data = view_command.dump_tables()
+        dump_data = schemas.dump_tables()
     else:
-        dump_data = view_command.dump_all()
+        dump_data = schemas.dump_all()
 
     # only print out the specified table columns
     table_columns = command_args.columns

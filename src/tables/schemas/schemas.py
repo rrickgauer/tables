@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .base import BaseCommand
+from .base import BaseSchema
 from tables import sql as sql_engine
 from tables.utilities.serializers import to_sql_database_tables_list_view
 from tables.utilities.serializers import serialize_dataclass
@@ -9,7 +9,7 @@ from tables.domain.enums import SqlTableType
 from tables.domain.views import SqlTableTypeView
 from tables.domain.views import SqlColumnDescription
 
-class ViewCommand(BaseCommand):
+class Schemas(BaseSchema):
     """Execute a view command."""
     
     def __init__(self, database: str):

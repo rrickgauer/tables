@@ -1,5 +1,3 @@
-
-
 from __future__ import annotations
 from tables.domain.maps import DatabaseDumpMap
 from tables.domain.models import TableDump

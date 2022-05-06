@@ -5,11 +5,14 @@ This is the main entry point for the entire application.
 
 ********************************************************************************************
 """
+
 from __future__ import annotations
 from datetime import datetime
 from tables import cli
-from tables.domain.enums import CliCommands, ViewCommandOutputFormat
+from tables.domain.enums import CliCommands
+from tables.domain.enums import ViewCommandOutputFormat
 from tables.persistence import services
+from tables.persistence.data_access import write_to_file
 from tables.utilities import prettytables
 from tables.utilities import prompts
 from tables.utilities.routines import set_pymysql_credentials
@@ -143,10 +146,10 @@ def _run_command_view(cli_args: cli.CliArgs):
     
     # either write the output to a file
     # or print it to the console
-    if not command_args.output:
-        print(output)
+    if command_args.output: 
+        write_to_file(command_args.output, output)
     else:
-        pass
+        print(output)
         
 
     

@@ -16,9 +16,8 @@ Each command has its own seperate set of flags/arguments.
 
 from __future__ import annotations
 import argparse
-from tables.domain.enums import CliCommands
-from tables.domain.models import DatabaseConnection
-from tables import serializers
+from tables.domain.enums import CliCommands, ViewCommandOutputFormat
+from .choices import VIEW_COLUMN_CHOICES_ALL
 
 class CliArgs:
 
@@ -45,19 +44,19 @@ class CliArgs:
         self._add_subparser_list()
         self._add_subparser_add()
         self._add_subparser_delete()
+        self._add_subparser_view()
         
 
     def _add_subparser_list(self):
         """Add the cli flag arguments for the list command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.LIST.value)
-        sub_parser.add_argument('--username', type=str)
+
 
     def _add_subparser_add(self):
         """Add the cli flag arguments for the add command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.ADD.value)
-
         sub_parser.add_argument('--name', type=str, required=False)
         sub_parser.add_argument('--user', type=str, required=False)
         sub_parser.add_argument('--host', type=str, required=False)
@@ -66,11 +65,25 @@ class CliArgs:
 
 
     def _add_subparser_delete(self):
-        """Add the cli flag arguments for the add command."""
+        """Add the cli flag arguments for the delete command."""
 
         sub_parser = self._subparser.add_parser(CliCommands.DELETE.value)
-
         sub_parser.add_argument('--name', type=str, required=False)
+
+
+    def _add_subparser_view(self):
+        """Add the cli flag arguments for the view command."""
+
+        sub_parser = self._subparser.add_parser(CliCommands.VIEW.value)
+        
+        sub_parser.add_argument('-n', '--name', type=str, required=False, help="Database connection name.", metavar='')
+        sub_parser.add_argument('-a', '--all', action="store_true", help="Dump table and view schemas.")
+        sub_parser.add_argument('-t', '--tables', action="store_true", help="Dump table schemas.")
+        sub_parser.add_argument('-v', '--views', action="store_true", help="Dump view schemas.")
+        sub_parser.add_argument('-c', '--columns', choices=VIEW_COLUMN_CHOICES_ALL, nargs="+", type=str, action="extend", metavar='')
+        sub_parser.add_argument('-o', '--output', type=str, required=False, help="Write output to file.", metavar='')
+        sub_parser.add_argument('-f', '--format', type=str, required=False, metavar='', choices=ViewCommandOutputFormat.values(), default=ViewCommandOutputFormat.TABLE.value, help="'table', 'markdown', 'html', 'json'")
+        sub_parser.add_argument('-s', '--sort', type=str, choices=VIEW_COLUMN_CHOICES_ALL, metavar='', help='Sort by column.', required=False)
 
 
     @property
@@ -84,18 +97,5 @@ class CliArgs:
 
         return command
 
-
-def get_database_connection(cli_args: CliArgs) -> DatabaseConnection:
-    """Creat a new DatabaseConnection model with property values provided in the CLI args."""
-
-    args_dict = cli_args.args.__dict__
-    return serializers.to_database_connection(args_dict)
-
-
-
-
-
-    
-    
-
         
+ 

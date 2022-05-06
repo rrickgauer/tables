@@ -3,6 +3,8 @@ from enum import Enum
 import os
 import tables
 
+SQL_DATA_ENCODING = 'utf-8'
+
 class Paths:
     CWD = os.getcwd()
     EXE = os.path.dirname(tables.__file__)

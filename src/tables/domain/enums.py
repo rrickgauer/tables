@@ -37,3 +37,18 @@ class CliCommands(ExtendedEnum):
     ADD    = 'add'
     VIEW   = 'view'
     DELETE = 'delete'
+
+
+
+class SqlTableType(ExtendedEnum):
+    """MySQL Table Types"""
+
+    TABLE = 'BASE TABLE'
+    VIEW = 'VIEW'
+
+
+class ViewCommandOutputFormat(str, ExtendedEnum):
+    TABLE    = 'table'
+    MARKDOWN = 'markdown'
+    HTML     = 'html'
+    JSON     = 'json'

@@ -8,12 +8,13 @@ This is the main entry point for the entire application.
 from __future__ import annotations
 from datetime import datetime
 from tables import cli
-from tables.domain.enums import CliCommands
+from tables.domain.enums import CliCommands, ViewCommandOutputFormat
 from tables.persistence import services
 from tables.utilities import prettytables
 from tables.utilities import prompts
 from tables.utilities.routines import set_pymysql_credentials
 from tables.schemas import Schemas
+from tables.commands import ViewCommand
 
 def run():
     """Main entry point"""
@@ -88,7 +89,6 @@ def _run_command_view(cli_args: cli.CliArgs):
 
     # determine which dump we should do
     command_args = cli.get_view_command_cli_flags(cli_args)
-    print(command_args)
     
     # prompt user for connection name if it was not provided in the cli args
     connection_name = command_args.name or input('Name: ')
@@ -128,15 +128,25 @@ def _run_command_view(cli_args: cli.CliArgs):
     else:
         dump_data = schemas.dump_all()
 
-    # only print out the specified table columns
-    table_columns = command_args.columns
+    # format the output 
+    view_command = ViewCommand(dump_data, command_args.columns)
 
-    for table_name, table_dump in dump_data.items():
-        prettytable = prettytables.dataclasses_to_prettytable(table_dump.columns)
+    if command_args.format == ViewCommandOutputFormat.MARKDOWN:
+        output = view_command.get_markdown()
+    elif command_args.format == ViewCommandOutputFormat.HTML:
+        output = view_command.get_html()
+    elif command_args.format == ViewCommandOutputFormat.JSON:
+        output = view_command.get_json()
+    else:
+        output = view_command.get_table()
 
-        print(f'{table_name} [{table_dump.table_type.value}]')
-        print(prettytable.get_string(fields=table_columns))
-        print("\n" * 2)
+    
+    # either write the output to a file
+    # or print it to the console
+    if not command_args.output:
+        print(output)
+    else:
+        pass
         
 
     
